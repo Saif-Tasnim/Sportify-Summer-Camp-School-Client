@@ -25,7 +25,7 @@ const MenuDropdown = () => {
             </div>
             {isOpen && (
                 <div className='absolute rounded-xl shadow-md w-[40vw] md:w-[150px] bg-white overflow-hidden right-0 top-12 text-sm'>
-                    <div className='flex flex-col cursor-pointer'>
+                    <div className='flex flex-col cursor-pointer text-black'>
 
                         {user ? (
                             <>

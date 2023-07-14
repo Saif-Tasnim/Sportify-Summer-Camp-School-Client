@@ -18,8 +18,8 @@ const Navbar = () => {
             <div className='w-[40%] ml-8'>
                 <ul className='hidden md:flex md:gap-11'>
                     <li><Link to="/" className='text-xl hover:text-amber-700'>Home</Link></li>
-                    <li><Link className='text-xl hover:text-amber-700'>Class</Link></li>
-                    <li><Link className='text-xl hover:text-amber-700'>Instructor</Link></li>
+                    <li><Link className='text-xl hover:text-amber-700'>Classes</Link></li>
+                    <li><Link className='text-xl hover:text-amber-700'>Instructors</Link></li>
 
                 </ul>
             </div>

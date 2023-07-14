@@ -6,11 +6,11 @@ import logo from '../../../assets/istockphoto-1158975774-612x612.jpg'
 const Navbar = () => {
 
     return (
-        <div className='navbar fixed pb-3 z-10'>
+        <div className='navbar pb-3 fixed z-10 mx-32'>
             <div className="w-[40%]">
                 <Link to="/" className="flex gap-5 items-center">
-                    <img src={logo} className="w-40" alt="" />
-                    <h1 className='text-lg font-bold md:text-2xl'>Sportify Summer <br />     School   </h1>
+                    <img src={logo} className="w-48 h-24 rounded-3xl" alt="" />
+                    <h1 className='text-lg font-bold md:text-2xl'> Sportify Summer <br />   <span className='ml-12'> School </span>   </h1>
                 </Link>
             </div>
 

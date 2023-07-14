@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
 import {
   RouterProvider,
@@ -13,12 +12,17 @@ import AuthProviders from './Providers/AuthProviders.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProviders>
+     
       <HelmetProvider>
-        <div className='w-full mx-auto md:w-[1280px]'>
+        
+        <div className='w-full md:max-w-screen-xl lg:max-w-screen-2xl md:mx-auto lg:mx-auto'>
           <RouterProvider router={router}
-          ></RouterProvider>
+          >      </RouterProvider>
+        
         </div>
+      
       </HelmetProvider>
+    
     </AuthProviders>
   </React.StrictMode>,
 )

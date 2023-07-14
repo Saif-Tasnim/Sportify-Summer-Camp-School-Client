@@ -42,7 +42,7 @@ const Banner = () => {
                 {images.map((src, idx) => (
                     <div key={idx} className="keen-slider__slide zoom-out__slide">
                         <div style={scaleStyle(idx)}>
-                            <img src={src} className='h-screen w-full' />
+                            <img src={src} className='h-screen md:h-screen md:w-full overflow-x-auto' />
                         </div>
                     </div>
                 ))}

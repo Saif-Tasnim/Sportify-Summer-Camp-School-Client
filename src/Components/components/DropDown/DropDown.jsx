@@ -2,11 +2,24 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { useCallback, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../../Providers/AuthProviders'
+import { motion } from "framer-motion";
 
 const MenuDropdown = () => {
     const { user } = useContext(AuthContext)
     const [isOpen, setIsOpen] = useState(false)
 
+    const show = {
+        opacity: 1,
+        display: "block",
+        
+    };
+
+    const hide = {
+        opacity: 0,
+        transitionEnd: {
+            display: "none"
+        }
+    };
 
     return (
         <div className='relative'>
@@ -22,58 +35,65 @@ const MenuDropdown = () => {
             <Avatar />
           </div> */}
                 </div>
-            </div>
+            </div >
+
             {isOpen && (
+            
+                <motion.div className="box" animate={isOpen ? show : hide}>
+                
                 <div className='absolute rounded-xl shadow-md w-[40vw] md:w-[150px] bg-white overflow-hidden right-0 top-12 text-sm'>
-                    <div className='flex flex-col cursor-pointer text-black'>
+                <div className='flex flex-col cursor-pointer text-black'>
 
-                        {user ? (
-                            <>
-                                <Link
-                                    to='/'
-                                    className='block md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                                >
-                                    Dashboard
-                                </Link>
-                                <div
-                                    onClick={logOut}
-                                    className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
-                                >
-                                    Logout
-                                </div>
-                            </>
+                    {user ? (
+                        <>
+                            <Link
+                                to='/'
+                                className='block md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                            >
+                                Dashboard
+                            </Link>
+                            <div
+                                onClick={logOut}
+                                className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
+                            >
+                                Logout
+                            </div>
+                        </>
 
-                        ) : (
-                            <>
-                                <Link
-                                    to='/'
-                                    className='px-4 py-3 hover:bg-neutral-100 transition font-semibold block md:hidden'
-                                >
-                                    Home
-                                </Link>
-                                <Link
-                                    to='/'
-                                    className='px-4 py-3 hover:bg-neutral-100 transition font-semibold block md:hidden'
-                                >
-                                    Class
-                                </Link>
-                                <Link
-                                    to='/'
-                                    className='px-4 py-3 hover:bg-neutral-100 transition font-semibold block md:hidden'
-                                >
-                                    Instructor
-                                </Link>
-                                <Link
-                                    to='/login'
-                                    className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                                >
-                                    Login
-                                </Link>
+                    ) : (
+                        <>
+                            <Link
+                                to='/'
+                                className='px-4 py-3 hover:bg-neutral-100 transition font-semibold block md:hidden'
+                            >
+                                Home
+                            </Link>
+                            <Link
+                                to='/'
+                                className='px-4 py-3 hover:bg-neutral-100 transition font-semibold block md:hidden'
+                            >
+                                Class
+                            </Link>
+                            <Link
+                                to='/'
+                                className='px-4 py-3 hover:bg-neutral-100 transition font-semibold block md:hidden'
+                            >
+                                Instructor
+                            </Link>
+                            <Link
+                                to='/login'
+                                className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                            >
+                                Login
+                            </Link>
 
-                            </>
-                        )}
-                    </div>
+                        </>
+                    )}
                 </div>
+            </div>
+
+
+            </motion.div> 
             )}
         </div>
     )

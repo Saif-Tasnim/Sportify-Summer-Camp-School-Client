@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Fade, Slide } from "react-awesome-reveal";
 import { AiFillEyeInvisible, AiFillEye, AiOutlineGoogle } from "react-icons/ai";
+import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form"
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Providers/AuthProviders';
@@ -9,7 +10,7 @@ import { toast } from 'react-hot-toast';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { signIn, googleSignIn } = useContext(AuthContext);
+    const { signIn, googleSignIn , setLoading , loading } = useContext(AuthContext);
 
 
     const navigate = useNavigate();
@@ -21,14 +22,16 @@ const Login = () => {
 
     const onSubmit = (data) => {
         // console.log(data)
+        setLoading(true);
         signIn(data.email, data.password)
             .then(res => {
                 const loggedUser = res.user;
                 toast.success('Successfully logged in!')
-
+                setLoading(false)
                 navigate(from, { replace: true })
             })
             .catch(err => {
+                setLoading(false)
                 toast.error(err.message)
 
             })
@@ -37,14 +40,16 @@ const Login = () => {
     }
 
     const handleGoogleSignIn = () => {
+        setLoading(true);
         googleSignIn()
             .then(res => {
                 const loggedUser = res.user;
+                setLoading(false);
                 toast.success('Successfully logged in!')
-
                 navigate(from, { replace: true })
             })
             .catch(err => {
+                setLoading(false);
                 toast.error(err.message)
 
             })
@@ -125,13 +130,16 @@ const Login = () => {
                             </div>
 
                             <div className="form-control mt-6">
-                                <button className="btn btn-primary"> Login </button>
+                                <button className="btn btn-primary"> {loading? <TbFidgetSpinner className='text-3xl animate-spin text-red-600'/>: "Log In"}  
+                                </button>
                             </div>
 
                             <div className="divider"> OR </div>
 
                             <div className="form-control mt-3">
-                                <button className="btn bg-transparent border-2 border-emerald-500" onClick={handleGoogleSignIn}> <AiOutlineGoogle className='text-2xl' /> Continue With Google </button>
+                                <button className="btn bg-transparent border-2 border-emerald-500" onClick={handleGoogleSignIn}
+                                disabled = {loading}
+                                > <AiOutlineGoogle className='text-2xl' /> Continue With Google </button>
                             </div>
 
                         </form>

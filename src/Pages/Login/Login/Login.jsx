@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { signIn } = useContext(AuthContext);
+    const { signIn, googleSignIn } = useContext(AuthContext);
 
 
     const navigate = useNavigate();
@@ -33,6 +33,21 @@ const Login = () => {
 
             })
 
+
+    }
+
+    const handleGoogleSignIn = () => {
+        googleSignIn()
+            .then(res => {
+                const loggedUser = res.user;
+                toast.success('Successfully logged in!')
+
+                navigate(from, { replace: true })
+            })
+            .catch(err => {
+                toast.error(err.message)
+
+            })
 
     }
 
@@ -116,7 +131,7 @@ const Login = () => {
                             <div className="divider"> OR </div>
 
                             <div className="form-control mt-3">
-                                <button className="btn bg-transparent border-2 border-emerald-500"> <AiOutlineGoogle className='text-2xl' /> Continue With Google </button>
+                                <button className="btn bg-transparent border-2 border-emerald-500" onClick={handleGoogleSignIn}> <AiOutlineGoogle className='text-2xl' /> Continue With Google </button>
                             </div>
 
                         </form>

@@ -9,14 +9,18 @@ import { toast } from 'react-hot-toast';
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const[conPassword , setConPassword] = useState(false)
     const { signUp, updateData } = useContext(AuthContext);
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors } ,reset} = useForm()
     const navigate = useNavigate()
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
 
     const onSubmit = (data) => {
         // console.log(data)
+         if(data.password !== data.conPassword){
+            return toast.error("password & confirm password did not match")
+         }
 
         signUp(data.email, data.password)
             .then(res => {
@@ -24,6 +28,7 @@ const SignUp = () => {
                     .then(res => {
                         toast.success("sucessfully created account")
                         navigate(from, { replace: true });
+                        reset();
                     })
                     .catch(err => {
                         toast.error(err.message);
@@ -184,13 +189,13 @@ const SignUp = () => {
                                     </label>
 
                                     {
-                                        showPassword ?
+                                        conPassword ?
                                             <div className='flex items-center'>
                                                 <input type="text" placeholder="password" className="input input-bordered w-full"
                                                     {...register("password", { required: true })}
                                                 />
                                                 <AiFillEyeInvisible className='-ml-5 hover:cursor-pointer'
-                                                    onClick={() => { setShowPassword(!showPassword) }}
+                                                    onClick={() => { setConPassword(!conPassword) }}
                                                 ></AiFillEyeInvisible>
 
                                             </div>
@@ -198,14 +203,14 @@ const SignUp = () => {
                                             :
                                             <>
                                                 <div className='flex items-center'>
-                                                    <input type="password" placeholder="password" className="input input-bordered w-full"
-                                                        {...register("password", { required: true })}
+                                                    <input type="password" placeholder="Confirm password" className="input input-bordered w-full"
+                                                        {...register("conPassword", { required: true })}
                                                     />
                                                     <AiFillEye className='-ml-5 hover:cursor-pointer'
-                                                        onClick={() => { setShowPassword(!showPassword) }}
+                                                        onClick={() => { setConPassword(!conPassword) }}
                                                     ></AiFillEye>
                                                 </div>
-                                                {errors?.password?.type === "required" && (
+                                                {errors?.conPassword?.type === "required" && (
                                                     <p role="alert" className='text-red-600 pt-3'> Confirm Password is required </p>
                                                 )}
 

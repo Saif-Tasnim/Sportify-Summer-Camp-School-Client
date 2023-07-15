@@ -5,37 +5,59 @@ import { useForm } from "react-hook-form"
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Providers/AuthProviders';
 import { toast } from 'react-hot-toast';
+import { TbFidgetSpinner } from "react-icons/tb";
 
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const[conPassword , setConPassword] = useState(false)
-    const { signUp, updateData } = useContext(AuthContext);
-    const { register, handleSubmit, formState: { errors } ,reset} = useForm()
+    const [conPassword, setConPassword] = useState(false)
+    const { signUp, updateData, loading, setLoading } = useContext(AuthContext);
+    const { register, handleSubmit, formState: { errors }, reset } = useForm()
     const navigate = useNavigate()
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
 
     const onSubmit = (data) => {
         // console.log(data)
-         if(data.password !== data.conPassword){
+        if (data.password !== data.conPassword) {
             return toast.error("password & confirm password did not match")
-         }
-
+        }
+         
+        setLoading(true);
         signUp(data.email, data.password)
             .then(res => {
                 updateData(data.name, data.photo)
                     .then(res => {
-                        toast.success("sucessfully created account")
-                        navigate(from, { replace: true });
-                        reset();
+                        const { name,email,phone,photo,address,gender,password } = data;
+                        
+                        const user = { name,email,phone,photo,address,gender,password, role: "Student" }
+
+                        fetch('http://localhost:5000/users', {
+                            method: "POST",
+                            headers: {
+                                'content-type': 'application/json',
+                            },
+                            body: JSON.stringify(user),
+                        })
+                            .then(dbRes => dbRes.json())
+                            .then(dbData => {
+                                if (dbData.insertedId) {
+                                    setLoading(false);
+                                    toast.success("sucessfully created account")
+                                    navigate(from, { replace: true });
+                                    reset();
+                                }
+                            })
+
                     })
                     .catch(err => {
                         toast.error(err.message);
+                        setLoading(false);
                     })
             })
             .catch(err => {
-
+                toast.error(err.message);
+                setLoading(false);
             })
     }
 
@@ -135,7 +157,7 @@ const SignUp = () => {
                                                             {
                                                                 required: true,
                                                                 minLength: 6,
-                                                                pattern: '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/'
+                                                                pattern: '/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/'
                                                             })}
                                                     />
                                                     <AiFillEyeInvisible className='-ml-5 hover:cursor-pointer'
@@ -161,7 +183,7 @@ const SignUp = () => {
                                                             {
                                                                 required: true,
                                                                 minLength: 6,
-                                                                pattern: '/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/'
+                                                                pattern: '/^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/'
                                                             })}
                                                     />
                                                     <AiFillEye className='-ml-5 hover:cursor-pointer'
@@ -192,7 +214,7 @@ const SignUp = () => {
                                         conPassword ?
                                             <div className='flex items-center'>
                                                 <input type="text" placeholder="password" className="input input-bordered w-full"
-                                                    {...register("password", { required: true })}
+                                                    {...register("conPassword", { required: true })}
                                                 />
                                                 <AiFillEyeInvisible className='-ml-5 hover:cursor-pointer'
                                                     onClick={() => { setConPassword(!conPassword) }}
@@ -251,7 +273,7 @@ const SignUp = () => {
                             </div>
 
                             <div className="form-control mt-6">
-                                <button className="btn btn-primary"> Sign Up </button>
+                                <button className="btn btn-primary"> {loading? <TbFidgetSpinner  className='text-3xl animate-spin text-red-600'/> :"Sign Up"} </button>
                             </div>
 
                         </form>

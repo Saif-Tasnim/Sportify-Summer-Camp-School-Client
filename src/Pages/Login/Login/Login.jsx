@@ -1,15 +1,39 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Fade, Slide } from "react-awesome-reveal";
 import { AiFillEyeInvisible, AiFillEye, AiOutlineGoogle } from "react-icons/ai";
 import { useForm } from "react-hook-form"
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../Providers/AuthProviders';
+import { toast } from 'react-hot-toast';
 
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { signIn } = useContext(AuthContext);
+
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || "/";
+
+    const { register, handleSubmit, formState: { errors }, reset } = useForm()
+
     const onSubmit = (data) => {
-        console.log(data)
+        // console.log(data)
+        signIn(data.email, data.password)
+            .then(res => {
+                const loggedUser = res.user;
+                toast.success('Successfully logged in!')
+
+                navigate(from, { replace: true })
+            })
+            .catch(err => {
+                toast.error(err.message)
+
+            })
+
+
     }
 
     return (

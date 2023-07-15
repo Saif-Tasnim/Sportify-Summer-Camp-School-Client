@@ -1,15 +1,37 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Fade, Slide } from "react-awesome-reveal";
 import { AiFillEyeInvisible, AiFillEye, AiOutlineGoogle } from "react-icons/ai";
 import { useForm } from "react-hook-form"
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../Providers/AuthProviders';
+import { toast } from 'react-hot-toast';
 
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const { signUp, updateData } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm()
+    const navigate = useNavigate()
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
+
     const onSubmit = (data) => {
         // console.log(data)
+
+        signUp(data.email, data.password)
+            .then(res => {
+                updateData(data.name, data.photo)
+                    .then(res => {
+                        toast.success("sucessfully created account")
+                        navigate(from, { replace: true });
+                    })
+                    .catch(err => {
+                        toast.error(err.message);
+                    })
+            })
+            .catch(err => {
+
+            })
     }
 
     return (

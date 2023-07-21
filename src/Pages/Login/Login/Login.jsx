@@ -6,11 +6,12 @@ import { useForm } from "react-hook-form"
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../Providers/AuthProviders';
 import { toast } from 'react-hot-toast';
+import axios from 'axios';
 
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { signIn, googleSignIn , loading } = useContext(AuthContext);
+    const { signIn, googleSignIn, loading } = useContext(AuthContext);
     const [logIn, setLogIn] = useState(false)
 
     const navigate = useNavigate();
@@ -46,9 +47,37 @@ const Login = () => {
         googleSignIn()
             .then(res => {
                 const loggedUser = res.user;
-                setLogIn(false);
-                toast.success('Successfully logged in!')
-                navigate(from, { replace: true })
+                // const user = {
+                //     name: loggedUser.displayName,
+                //     email: loggedUser.email,
+                //     phone: loggedUser.phone,
+                //     photo: loggedUser.photoURL,
+                //     address: null,
+                //     gender: null,
+                // }
+
+                axios.post('http://localhost:5000/users', {
+                    name: loggedUser.displayName,
+                    email: loggedUser.email,
+                    phone: "Not Found",
+                    photo: loggedUser.photoURL,
+                    address: "Not Found",
+                    gender: "Not Found",
+                    role: "Student"
+                })
+                    .then(data => {
+                        if (data.data.insertedId) {
+                            toast.success('Successfully created account !')
+                        }
+
+                        else {
+                            toast.success('Successfully logged in !')
+                        }
+
+                        setLogIn(false);
+                        navigate(from, { replace: true })
+
+                    })
             })
             .catch(err => {
                 setLogIn(false);
@@ -132,7 +161,7 @@ const Login = () => {
                             </div>
 
                             <div className="form-control mt-6">
-                                <button className="btn btn-primary"> {logIn? <TbFidgetSpinner className='text-3xl animate-spin text-red-600'/>: "Log In"}  
+                                <button className="btn btn-primary"> {logIn ? <TbFidgetSpinner className='text-3xl animate-spin text-red-600' /> : "Log In"}
                                 </button>
                             </div>
 
@@ -140,7 +169,7 @@ const Login = () => {
 
                             <div className="form-control mt-3">
                                 <button className="btn bg-transparent border-2 border-emerald-500" onClick={handleGoogleSignIn}
-                                disabled = {logIn}
+                                    disabled={logIn}
                                 > <AiOutlineGoogle className='text-2xl' /> Continue With Google </button>
                             </div>
 

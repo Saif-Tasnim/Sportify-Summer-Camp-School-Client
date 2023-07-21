@@ -9,23 +9,38 @@ import { HelmetProvider } from 'react-helmet-async';
 import AuthProviders from './Providers/AuthProviders.jsx';
 import { Toaster } from 'react-hot-toast';
 
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+
+const queryClient = new QueryClient;
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+
     <AuthProviders>
-      <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
 
-        <div className='w-full md:max-w-screen-xl lg:max-w-screen-2xl md:mx-auto lg:mx-auto'>
-        <Toaster position="top-center"/>
-          <RouterProvider router={router}>
-         
-          </RouterProvider>
+        <HelmetProvider>
 
-        </div>
-      </HelmetProvider>
+          <div className='w-full md:max-w-screen-xl lg:max-w-screen-2xl md:mx-auto lg:mx-auto'>
+            <Toaster position="top-center" />
+            <RouterProvider router={router}>
 
+            </RouterProvider>
 
+          </div>
+        </HelmetProvider>
+
+      </QueryClientProvider>
     </AuthProviders>
+
+
 
   </React.StrictMode>,
 )

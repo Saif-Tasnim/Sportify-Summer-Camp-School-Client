@@ -10,8 +10,8 @@ import { toast } from 'react-hot-toast';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { signIn, googleSignIn , setLoading , loading } = useContext(AuthContext);
-
+    const { signIn, googleSignIn , loading } = useContext(AuthContext);
+    const [logIn, setLogIn] = useState(false)
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -22,17 +22,19 @@ const Login = () => {
 
     const onSubmit = (data) => {
         // console.log(data)
-        setLoading(true);
+        setLogIn(true);
         signIn(data.email, data.password)
             .then(res => {
                 const loggedUser = res.user;
                 toast.success('Successfully logged in!')
-                setLoading(false)
+                setLogIn(false)
                 navigate(from, { replace: true })
+                reset();
             })
             .catch(err => {
-                setLoading(false)
+                setLogIn(false)
                 toast.error(err.message)
+                reset();
 
             })
 
@@ -40,16 +42,16 @@ const Login = () => {
     }
 
     const handleGoogleSignIn = () => {
-        setLoading(true);
+        setLogIn(true);
         googleSignIn()
             .then(res => {
                 const loggedUser = res.user;
-                setLoading(false);
+                setLogIn(false);
                 toast.success('Successfully logged in!')
                 navigate(from, { replace: true })
             })
             .catch(err => {
-                setLoading(false);
+                setLogIn(false);
                 toast.error(err.message)
 
             })
@@ -130,7 +132,7 @@ const Login = () => {
                             </div>
 
                             <div className="form-control mt-6">
-                                <button className="btn btn-primary"> {loading? <TbFidgetSpinner className='text-3xl animate-spin text-red-600'/>: "Log In"}  
+                                <button className="btn btn-primary"> {logIn? <TbFidgetSpinner className='text-3xl animate-spin text-red-600'/>: "Log In"}  
                                 </button>
                             </div>
 
@@ -138,7 +140,7 @@ const Login = () => {
 
                             <div className="form-control mt-3">
                                 <button className="btn bg-transparent border-2 border-emerald-500" onClick={handleGoogleSignIn}
-                                disabled = {loading}
+                                disabled = {logIn}
                                 > <AiOutlineGoogle className='text-2xl' /> Continue With Google </button>
                             </div>
 

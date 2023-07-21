@@ -7,7 +7,7 @@ import './Navbar.css';
 const Navbar = () => {
 
     return (
-        <div className='navbar pb-3 fixed z-10 custom-nav '>
+        <div className='navbar pb-3 fixed z-10 custom-nav'>
             <div className="w-[35%] md:ml-40">
                 <Link to="/" className="flex gap-5 items-center">
                     <img src={logo} className="w-48 h-24 rounded-3xl" alt="" />

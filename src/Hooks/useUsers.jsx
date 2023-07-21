@@ -7,7 +7,7 @@ const useUsers = () => {
    const {user , loading} = useContext(AuthContext);
    const [axiosSecure] = useAxiosSecure();
 
-   const {data: users=[] , isLoading: dataLoading} = useQuery({
+   const {data: users=[] , isLoading: dataLoading , refetch} = useQuery({
     queryKey: ['users'],
     enabled: !loading,
     queryFn: async() =>{
@@ -17,7 +17,7 @@ const useUsers = () => {
     }
    })
 
-   return [users, dataLoading ];
+   return [users, dataLoading , refetch];
 
 };
 

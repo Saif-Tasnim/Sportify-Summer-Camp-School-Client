@@ -5,7 +5,7 @@ import { AuthContext } from '../../../Providers/AuthProviders';
 
 const ManageUsers = () => {
     const { loading } = useContext(AuthContext);
-    const [users] = useUsers();
+    const [users,,refetch] = useUsers();
     
     if (loading) {
         return <progress className="progress progress-accent w-56" value="100" max="100"></progress>
@@ -42,6 +42,7 @@ const ManageUsers = () => {
                         key={u._id}
                         user={u}
                         index={index}
+                        refetch={refetch}
                         ></User>)
                      }
 

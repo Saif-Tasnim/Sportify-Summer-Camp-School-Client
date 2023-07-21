@@ -2,6 +2,7 @@ import React from 'react';
 import { BsTrash } from 'react-icons/bs'
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { toast } from 'react-hot-toast';
+import useAdmin from '../../../Hooks/useAdmin';
 
 
 const User = ({ user, index, refetch }) => {
@@ -53,7 +54,9 @@ const User = ({ user, index, refetch }) => {
 
 
             <td>
-                <button className="btn btn-outline btn-info" onClick={() => handleMakeAdmin(user)}>
+                <button className="btn btn-outline btn-info"
+                    disabled={user.role === "Admin" ? true : false}
+                    onClick={() => handleMakeAdmin(user)}>
                     Make Admin </button></td>
 
             <td>

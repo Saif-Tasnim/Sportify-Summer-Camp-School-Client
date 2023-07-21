@@ -12,15 +12,15 @@ const ManageUsers = () => {
     }
 
     return (
-        <div>
-            <h1> All The Users Details </h1>
+        <div className='pt-20 bg-base-200'>
+            <h1 className='pt-10 mb-16 text-center text-3xl text-[#798132] underline'> All The Users Details </h1>
 
             {/*  table daisy ui  */}
 
             <div className="overflow-x-auto">
                 <table className="table">
                     {/* head */}
-                    <thead>
+                    <thead className='text-base font-bold bg-slate-600 text-[#EEFF25] ml-4'>
                         <tr>
                             <th>  #  </th>
                             <th> Image </th>
@@ -29,6 +29,9 @@ const ManageUsers = () => {
                             <th> Phone </th>
                             <th> Gender </th>
                             <th> Role </th>
+                            <th> Action </th>
+                            <th> Action </th>
+                            <th> Action </th>
                         </tr>
                     </thead>
 

@@ -2,12 +2,13 @@ import React from 'react';
 import { BsTrash } from 'react-icons/bs'
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { toast } from 'react-hot-toast';
-import useAdmin from '../../../Hooks/useAdmin';
 
 
 const User = ({ user, index, refetch }) => {
 
     const token = localStorage.getItem("access-token")
+    const [axiosSecure] = useAxiosSecure();
+
 
     const handleMakeAdmin = adminUser => {
         // console.log("hits on" , user._id , user.name);
@@ -27,6 +28,15 @@ const User = ({ user, index, refetch }) => {
             .catch(err => {
                 toast.error(err.message);
             })
+    }
+
+    const handleMakeInstructor = instructorUser => {
+        const res = axiosSecure.patch(`/users/instructor/${instructorUser._id}`)
+        // console.log(res);
+        if (res) {
+            refetch();
+            toast.success(`${instructorUser.name} is now an instructor !! `)
+        }
     }
 
     return (
@@ -60,7 +70,10 @@ const User = ({ user, index, refetch }) => {
                     Make Admin </button></td>
 
             <td>
-                <button className='btn btn-outline btn-warning'> Make Instructor </button></td>
+                <button className='btn btn-outline btn-warning'
+                    disabled={user.role === 'Instructor' ? true : false}
+                    onClick={() => handleMakeInstructor(user)}
+                > Make Instructor </button></td>
 
             <td>
                 <button className='btn btn-outline btn-error'> <BsTrash></BsTrash> </button>

@@ -47,7 +47,7 @@ const UserNav = () => {
                 {
                     isInstructor &&
                     <Link to="/dashboard" className="flex gap-5 items-center">
-                        <h1 className='text-lg font-bold md:text-2xl'> Welcome, Instructor !  </h1>
+                        <h1 className='text-lg font-bold md:text-2xl'> Welcome, {user.displayName} !  </h1>
                     </Link>
                 }
             </div>

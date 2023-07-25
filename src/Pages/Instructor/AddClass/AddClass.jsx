@@ -4,7 +4,6 @@ import { AuthContext } from '../../../Providers/AuthProviders';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { toast } from 'react-hot-toast';
 
-
 const imageHostingToken = import.meta.env.VITE_IMAGE_API_TOKEN;
 
 const AddClass = () => {
@@ -21,7 +20,7 @@ const AddClass = () => {
     } = useForm()
 
     const onSubmit = (data) => {
-        setDis(!dis);
+        setDis(true);
         const formData = new FormData();
         formData.append('image', data.classPhoto[0]);
 
@@ -50,7 +49,7 @@ const AddClass = () => {
                         .then(data => {
                             if (data.data.insertedId) {
                                 reset();
-                                setDis(!dis);
+                                setDis(false);
                                 toast.success("New class added request successfully sent")
 
                             }
@@ -74,7 +73,7 @@ const AddClass = () => {
                     <input type="text" placeholder="Class Name" className="input input-bordered input-primary w-full"
                         {...register("className", { required: true })} />
                     {errors.className?.type === "required" && (
-                        <p className="text-red-700 pt-2" className="text-red-700 pt-2" role="alert">Class Name is required</p>
+                        <p className="text-red-700 pt-2" role="alert">Class Name is required</p>
                     )}
 
                     <div className='flex flex-col mt-10 md:flex-row md:gap-8'>

@@ -4,7 +4,7 @@ import { AuthContext } from '../../../Providers/AuthProviders';
 import ClassCard from '../../../Components/components/ClassCard/ClassCard';
 
 const MyClass = () => {
-    const {user} = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [classList, refetch] = useClass();
 
     return (
@@ -12,10 +12,15 @@ const MyClass = () => {
             <h1 className='pt-10 mb-16 text-center text-3xl text-[#798132] underline'> All Class Of {user?.displayName} </h1>
 
             {/* class card  */}
-            {
-                classList.map (c=> <ClassCard></ClassCard>)
-            }
+            <div className='w-3/4 mx-auto grid grid-cols-3 gap-10'>
+                {
+                    classList.map(c => <ClassCard
+                        key={c._id}
+                        c={c}
+                    ></ClassCard>)
+                }
 
+            </div>
         </div>
     );
 };

@@ -10,6 +10,7 @@ import Dashboard from "../Pages/Admin/Dashboard/Dashboard";
 import ManageUsers from "../Pages/Admin/ManageUsers/ManageUsers";
 import AddClass from "../Pages/Instructor/AddClass/AddClass";
 import MyClass from "../Pages/Instructor/MyClass/MyClass";
+import AllClass from "../Pages/AllClass/AllClass";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: '/',
         element: <Home></Home>
+      },
+      {
+        path: 'classes',
+        element: <AllClass></AllClass>
       }
     ]
   },

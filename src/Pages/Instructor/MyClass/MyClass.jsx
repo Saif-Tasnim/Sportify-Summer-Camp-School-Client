@@ -12,7 +12,7 @@ const MyClass = () => {
             <h1 className='pt-10 mb-16 text-center text-3xl text-[#798132] underline'> All Class Of {user?.displayName} </h1>
 
             {/* class card  */}
-            <div className='w-3/4 mx-auto grid grid-cols-3 gap-10'>
+            <div className='w-[90%] mx-auto grid grid-cols-3 gap-10'>
                 {
                     classList.map(c => <ClassCard
                         key={c._id}

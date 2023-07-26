@@ -10,7 +10,7 @@ const UserNav = () => {
     const adminNav = <>
         <li><Link to="/" className='text-xl hover:text-amber-700'>Home</Link></li>
         <li><Link to="/dashboard" className='text-xl hover:text-amber-700'>Dashboard</Link></li>
-        <li><Link className='text-xl hover:text-amber-700'> Manage Classes </Link></li>
+        <li><Link to='/dashboard/manageClass' className='text-xl hover:text-amber-700'> Manage Classes </Link></li>
         <li><Link to='/dashboard/manageUsers' className='text-xl hover:text-amber-700'> Manage Users </Link></li>
     </>
 
@@ -24,7 +24,7 @@ const UserNav = () => {
     const studentNav = <>
         <li><Link to="/" className='text-xl hover:text-amber-700'>Home</Link></li>
         <li><Link to="/dashboard" className='text-xl hover:text-amber-700'>Dashboard</Link></li>
-        <li><Link className='text-xl hover:text-amber-700'> My Selected Class </Link></li>
+        <li><Link to="/dashboard/mySelectClass" className='text-xl hover:text-amber-700'> My Selected Class </Link></li>
         <li><Link to='/dashboard/manageUsers' className='text-xl hover:text-amber-700'> My Enrolled Classes </Link></li>
     </>
 
@@ -45,7 +45,7 @@ const UserNav = () => {
                 </Link>}
 
                 {
-                    isInstructor &&
+                    !isAdmin &&
                     <Link to="/dashboard" className="flex gap-5 items-center">
                         <h1 className='text-lg font-bold md:text-2xl'> Welcome, {user.displayName} !  </h1>
                     </Link>
@@ -61,6 +61,10 @@ const UserNav = () => {
 
                     {
                         isInstructor && instructorNav
+                    }
+
+                    {
+                        !isAdmin && !isInstructor && studentNav
                     }
                 </ul>
             </div>

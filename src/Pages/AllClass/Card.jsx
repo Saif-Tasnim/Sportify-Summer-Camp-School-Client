@@ -6,10 +6,15 @@ const Card = ({ d }) => {
     const available = d.seats - enrolled;
     const [isAdmin] = useAdmin();
     const [isInstructor] = useInstructor();
+
+    const handleSelectButton = data => {
+        console.log(data);
+    }
+
     return (
         <div className="card w-96 bg-base-100 shadow-xl image-full relative">
             <figure><img src={d.image} alt="class image" /></figure>
-            <div className="card-body">
+            <div className="card-body font-extrabold">
                 <h2 className="card-title mt-3">{d.className}</h2>
                 
                 <div className='mt-6'>
@@ -22,6 +27,7 @@ const Card = ({ d }) => {
                 <div className="card-actions justify-end mt-10">
                     <button className="btn btn-primary absolute bottom-2 right-2"
                     disabled={isAdmin || isInstructor || available===0}
+                    onClick={()=>handleSelectButton(d)}
                     >Select Course </button>
                 </div>
             </div>

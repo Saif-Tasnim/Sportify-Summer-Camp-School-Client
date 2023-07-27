@@ -2,21 +2,40 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext } from 'react';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { AuthContext } from '../../../Providers/AuthProviders';
+import { toast } from 'react-hot-toast';
 
 const ManageClass = () => {
     const [axiosSecure] = useAxiosSecure();
     const { user, loading } = useContext(AuthContext);
+    const token = localStorage.getItem("access-token");
 
     const { data: classData = [], refetch } = useQuery({
         queryKey: ['ManageClass'],
         enabled: !loading,
         queryFn: async () => {
-            const res = await axiosSecure.get('/class/admin/manage');
+            const res = await axiosSecure.get('/class');
             return res.data;
         }
     })
 
-    console.log(classData);
+    const handleAccept = data => {
+        fetch(`http://localhost:5000/class/admin/manage/${data._id}`, {
+            method: "PATCH",
+            headers: {
+                authorization: `bearer ${token}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount > 0) {
+                    refetch();
+                    toast.success(`${data.className} has approved !! `)
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+            })
+    }
 
     return (
         <div className='pt-20 bg-base-200'>
@@ -60,9 +79,14 @@ const ManageClass = () => {
                                 <td className='text-center'> {d.seats} </td>
                                 <td> ${d.price} </td>
                                 <td> {d.status} </td>
-                                <td> <button className="btn btn-outline btn-success">Accept</button></td>
-                                
-                                <td><button className="btn btn-outline btn-error"> Deny </button></td>
+                                <td> <button className="btn btn-outline btn-success"
+                                    disabled={d.status !== 'pending' ? true : false}
+                                    onClick={() => handleAccept(d)}
+                                >Accept</button></td>
+
+                                <td><button className="btn btn-outline btn-error"
+                                    disabled={d.status !== 'pending' ? true : false}
+                                > Deny </button></td>
 
                             </tr>)
                         }

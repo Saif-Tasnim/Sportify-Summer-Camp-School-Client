@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { AuthContext } from '../../../Providers/AuthProviders';
 import { toast } from 'react-hot-toast';
@@ -8,6 +8,9 @@ const ManageClass = () => {
     const [axiosSecure] = useAxiosSecure();
     const { user, loading } = useContext(AuthContext);
     const token = localStorage.getItem("access-token");
+    const modalRef = useRef(null);
+
+    let modalData;
 
     const { data: classData = [], refetch } = useQuery({
         queryKey: ['ManageClass'],
@@ -35,6 +38,41 @@ const ManageClass = () => {
             .catch(err => {
                 toast.error(err.message);
             })
+    }
+
+    const handleOpenModal = (data) => {
+        const modal = document.getElementById('my_modal_5');
+        modal.showModal();
+        modalData = data;
+
+    }
+
+    const handleSubmitButton = (event) => {
+        const form = event.target;
+        const field = form.details.value;
+        fetch(`http://localhost:5000/class/admin/deny/${modalData._id}`, {
+            method: "PUT",
+            headers: {
+                authorization: `bearer ${token}`
+            },
+            body: JSON.stringify(field)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount > 0) {
+                    refetch();
+                    toast.success(`Feedback sent successfully !! `)
+                }
+            })
+            .catch(err => {
+                toast.error(err.message);
+            })
+
+    }
+
+    const handleCloseModal = () => {
+        const modal = document.getElementById('my_modal_5');
+        modal.close();
     }
 
     return (
@@ -78,15 +116,49 @@ const ManageClass = () => {
                                 <td> {d.email} </td>
                                 <td className='text-center'> {d.seats} </td>
                                 <td> ${d.price} </td>
-                                <td> {d.status} </td>
-                                <td> <button className="btn btn-outline btn-success"
-                                    disabled={d.status !== 'pending' ? true : false}
+                                <td className={`font-bold text-lg ${d.status === 'Accepted'
+                                    ? 'text-green-600'
+                                    : d.status === 'Denied'
+                                        ? 'text-red-600'
+                                        : d.status === 'pending'
+                                            ? 'text-yellow-600'
+                                            : ''
+                                    }`}> {d.status} </td>
+                                <td> <button className={`btn btn-outline btn-success 
+                                ${d.status !== 'pending' ? 'hidden' : ""}`}
                                     onClick={() => handleAccept(d)}
                                 >Accept</button></td>
 
-                                <td><button className="btn btn-outline btn-error"
-                                    disabled={d.status !== 'pending' ? true : false}
-                                > Deny </button></td>
+                                <td><button className={`btn btn-outline btn-error 
+                                ${d.status !== 'pending' ? 'hidden' : ""}`}
+                                    onClick={() => handleOpenModal(d)}
+                                > Deny </button>
+
+                                    {/* modal box */}
+                                    <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+                                        <form method="dialog" className="modal-box" onSubmit={handleSubmitButton}>
+                                            <h3 className="font-bold text-lg text-center underline mb-6"> Feedback </h3>
+
+                                            <div className="form-control">
+                                                <label className="label">
+                                                    <span className="label-text"> Provide The Cancellation Feedback </span>
+                                                </label>
+                                                <input type='text' placeholder="Feedback" className="input input-bordered w-full h-[100px]"
+                                                    name='details'
+                                                />
+                                            </div>
+
+
+                                            <div className='flex justify-end gap-5'>
+                                                <div className="modal-action">
+                                                    <button className="btn btn-success" >Submit</button>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </dialog>
+
+                                </td>
 
                             </tr>)
                         }
@@ -99,3 +171,43 @@ const ManageClass = () => {
 };
 
 export default ManageClass;
+
+
+
+
+/* 
+
+import React from 'react';
+
+const YourComponent = () => {
+  const handleOpenModal = () => {
+    const modal = document.getElementById('my_modal_5');
+    modal.showModal();
+  };
+
+  const handleCloseModal = () => {
+    const modal = document.getElementById('my_modal_5');
+    modal.close();
+  };
+
+  return (
+    <>
+      <button className="btn" onClick={handleOpenModal}>Open modal</button>
+      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">Press ESC key or click the button below to close</p>
+          <div className="modal-action">
+          
+            <button className="btn" onClick={handleCloseModal}>Close</button>
+          </div>
+        </form>
+      </dialog>
+    </>
+  );
+};
+
+export default YourComponent;
+
+
+*/

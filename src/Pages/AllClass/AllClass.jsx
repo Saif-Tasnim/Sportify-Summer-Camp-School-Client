@@ -7,7 +7,7 @@ const AllClass = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/class')
+        fetch('http://localhost:5000/class/filter')
             .then(res => res.json())
             .then(data => setData(data))
     }, [])

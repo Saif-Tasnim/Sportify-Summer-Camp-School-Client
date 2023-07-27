@@ -3,6 +3,7 @@ import React, { useContext, useRef } from 'react';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { AuthContext } from '../../../Providers/AuthProviders';
 import { toast } from 'react-hot-toast';
+import { json } from 'react-router-dom';
 
 const ManageClass = () => {
     const [axiosSecure] = useAxiosSecure();
@@ -50,12 +51,14 @@ const ManageClass = () => {
     const handleSubmitButton = (event) => {
         const form = event.target;
         const field = form.details.value;
+        
         fetch(`http://localhost:5000/class/admin/deny/${modalData._id}`, {
             method: "PUT",
             headers: {
+                'content-type': 'application/json',
                 authorization: `bearer ${token}`
             },
-            body: JSON.stringify(field)
+            body: JSON.stringify({feedback:field})
         })
             .then(res => res.json())
             .then(data => {

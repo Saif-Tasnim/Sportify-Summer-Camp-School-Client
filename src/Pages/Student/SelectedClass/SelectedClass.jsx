@@ -3,11 +3,22 @@ import { AuthContext } from '../../../Providers/AuthProviders';
 import useSelectedCourse from '../../../Hooks/useSelectedCourse';
 import { BsTrash } from 'react-icons/bs'
 import { FaRegMoneyBillAlt } from 'react-icons/fa'
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import { toast } from 'react-hot-toast';
 
 const SelectedClass = () => {
     const { user } = useContext(AuthContext)
+    const [axiosSecure] = useAxiosSecure();
     const [selectCourse, refetch] = useSelectedCourse();
     // console.log(selectCourse);
+
+    const handleDeleteBtn = async (data) => {
+        const res = await axiosSecure.delete(`/student/class/select/${data._id}`)
+        if(res.data.deletedCount>0){
+            refetch();
+            toast.success(`${data.className} successfully deleted .. `);
+        }
+    }
 
     return (
         <div className='pt-20 pb-20 bg-base-200'>
@@ -53,7 +64,7 @@ const SelectedClass = () => {
                                     </td>
                                     <td>{course.instructorName}</td>
                                     <td className='text-center'>${course.price}</td>
-                                   
+
                                     <td>
                                         <div className="tooltip" data-tip="Pay">
                                             <button className="btn btn-warning btn-md text-lg"><FaRegMoneyBillAlt></FaRegMoneyBillAlt></button>
@@ -62,7 +73,9 @@ const SelectedClass = () => {
 
                                     <td>
                                         <div className="tooltip" data-tip="Delete">
-                                            <button className="btn btn-error btn-md text-lg">
+                                            <button className="btn btn-error btn-md text-lg"
+                                                onClick={() => handleDeleteBtn(course)}
+                                            >
                                                 <BsTrash></BsTrash>
                                             </button>
                                         </div>

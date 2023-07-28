@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Banner from '../Home/Banner/Banner';
 import Card from './Card';
 
-
 const AllClass = () => {
     const [data, setData] = useState([]);
 

@@ -3,7 +3,7 @@ import React, { useContext, useRef } from 'react';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { AuthContext } from '../../../Providers/AuthProviders';
 import { toast } from 'react-hot-toast';
-import { json } from 'react-router-dom';
+
 
 const ManageClass = () => {
     const [axiosSecure] = useAxiosSecure();

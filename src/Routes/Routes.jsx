@@ -1,5 +1,5 @@
 import {
-    createBrowserRouter,
+  createBrowserRouter,
 
 } from "react-router-dom";
 import Main from "../Layout/Main";
@@ -14,12 +14,13 @@ import AllClass from "../Pages/AllClass/AllClass";
 import SelectedClass from "../Pages/Student/SelectedClass/SelectedClass";
 import ManageClass from "../Pages/Admin/ManageClass/ManageClass";
 import AllInstructor from "../Pages/AllInstructors/AllInstructor";
+import Payment from "../Pages/Student/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Main></Main>,
-    children:[
+    children: [
       {
         path: '/',
         element: <Home></Home>
@@ -35,7 +36,7 @@ export const router = createBrowserRouter([
     ]
   },
   {
-    path:'/login',
+    path: '/login',
     element: <Login></Login>
   },
   {
@@ -48,11 +49,11 @@ export const router = createBrowserRouter([
     element: <Dashboard></Dashboard>,
     children: [
       {
-        path:'manageUsers',
+        path: 'manageUsers',
         element: <ManageUsers></ManageUsers>
       },
       {
-        path:'manageClass',
+        path: 'manageClass',
         element: <ManageClass></ManageClass>
       },
       {
@@ -65,12 +66,17 @@ export const router = createBrowserRouter([
       },
       {
         path: 'mySelectClass',
-        element: <SelectedClass></SelectedClass>
+        element: <SelectedClass></SelectedClass>,
+    
+      },
+      {
+        path: 'mySelectClass/payment/:id',
+        element: <Payment></Payment>
       }
     ]
-    
+
   },
-  
-  
+
+
 ])
 

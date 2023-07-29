@@ -2,18 +2,26 @@ import { useContext } from 'react';
 import useAdmin from '../../Hooks/useAdmin';
 import useInstructor from '../../Hooks/useInstructor';
 import { AuthContext } from '../../Providers/AuthProviders';
-import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { toast } from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Card = ({ d }) => {
-    const { user } = useContext(AuthContext);
+    const { user , loading } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
+    let isAdmin, isInstructor
 
+    // const [isAdmin] = useAdmin();
+    // const [isInstructor] = useInstructor();
 
-    const [isAdmin] = useAdmin();
-    const [isInstructor] = useInstructor();
+    if(loading){
+        return <span className="loading loading-spinner loading-lg"></span>
+    }
+
+    if (user) {
+        [isAdmin] = useAdmin();
+        [isInstructor] = useInstructor();
+    }
 
     const enrolled = d.enrolled ? d.enrolled : 0;
     const available = d.seats - enrolled;

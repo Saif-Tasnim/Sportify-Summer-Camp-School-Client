@@ -5,12 +5,12 @@ import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 import { AuthContext } from '../../../Providers/AuthProviders';
 
 const CheckoutForm = ({ data }) => {
-    const { loading } = useContext(AuthContext);
 
     const stripe = useStripe();
     const elements = useElements();
     const [axiosSecure] = useAxiosSecure();
     const [clientSecret, setClientSecret] = useState("");
+    const [loading, setLoading] = useState(false);
 
 
     const price = data.price;
@@ -38,6 +38,7 @@ const CheckoutForm = ({ data }) => {
             return;
         }
 
+        setLoading(true);
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card
@@ -45,6 +46,7 @@ const CheckoutForm = ({ data }) => {
 
         if (error) {
             toast.error(error)
+            setLoading(false);
         }
 
         else {
@@ -67,11 +69,35 @@ const CheckoutForm = ({ data }) => {
 
         if (confirmError) {
             toast.error(confirmError)
+            setLoading(false);
         }
 
         else {
-            toast.success("payment successfully done. Enrolled in Course")
-            console.log("paymentIntent", paymentIntent);
+
+            // console.log("paymentIntent", paymentIntent);
+            if (paymentIntent.status === 'succeeded') {
+                setLoading(false);
+                const transactionId = paymentIntent.id;
+                const payment = {
+                    className: data.className,
+                    studentName: data.studentName,
+                    _id: data._id,
+                    transactionId: transactionId,
+                    instructorName: data.instructorName,
+                    studentEmail: data.studentEmail,
+                    amount: data.price,
+                    status: 'enrolled'
+                };
+
+                axiosSecure.post('/payment', payment)
+                    .then(res => {
+                        console.log(res);
+                        if (res.data.deleteRes.deletedCount || res.data.insertedRes.insertedId || res.data.updateRes.modifiedCount) {
+                            toast.success("payment successfully done. Enrolled in Course")
+                        }
+                    })
+
+            }
         }
 
     }
@@ -95,7 +121,7 @@ const CheckoutForm = ({ data }) => {
                     },
                 }}
             />
-            <button className='mt-5 btn btn-primary btn-md' type="submit" disabled={!stripe || !clientSecret}>
+            <button className='mt-5 btn btn-primary btn-md' type="submit" disabled={!stripe || !clientSecret || loading}>
                 Proceed To Pay
             </button>
         </form>

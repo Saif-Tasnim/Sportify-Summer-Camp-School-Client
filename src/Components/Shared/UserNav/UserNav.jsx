@@ -9,21 +9,21 @@ const UserNav = () => {
 
     const adminNav = <>
         <li><Link to="/" className='text-xl hover:text-amber-700'>Home</Link></li>
-        <li><Link to="/dashboard" className='text-xl hover:text-amber-700'>Dashboard</Link></li>
+        {/* <li><Link to="/dashboard" className='text-xl hover:text-amber-700'>Dashboard</Link></li> */}
         <li><Link to='/dashboard/manageClass' className='text-xl hover:text-amber-700'> Manage Classes </Link></li>
         <li><Link to='/dashboard/manageUsers' className='text-xl hover:text-amber-700'> Manage Users </Link></li>
     </>
 
     const instructorNav = <>
         <li><Link to="/" className='text-xl hover:text-amber-700'>Home</Link></li>
-        <li><Link to="/dashboard" className='text-xl hover:text-amber-700'>Dashboard</Link></li>
+        {/* <li><Link to="/dashboard" className='text-xl hover:text-amber-700'>Dashboard</Link></li> */}
         <li><Link to='/dashboard/addClass' className='text-xl hover:text-amber-700'> Add A Class </Link></li>
         <li><Link to='/dashboard/myClass' className='text-xl hover:text-amber-700'> My Classes </Link></li>
     </>
 
     const studentNav = <>
         <li><Link to="/" className='text-xl hover:text-amber-700'>Home</Link></li>
-        <li><Link to="/dashboard" className='text-xl hover:text-amber-700'>Dashboard</Link></li>
+        {/* <li><Link to="/dashboard" className='text-xl hover:text-amber-700'>Dashboard</Link></li> */}
         <li><Link to="/dashboard/mySelectClass" className='text-xl hover:text-amber-700'> My Selected Class </Link></li>
         <li><Link to='/dashboard/myEnrolledClass' className='text-xl hover:text-amber-700'> My Enrolled Classes </Link></li>
     </>

@@ -72,7 +72,7 @@ const Card = ({ d }) => {
     }
 
     return (
-        <div className="card w-96 bg-base-100 shadow-xl image-full relative">
+        <div className={`card w-96 shadow-xl image-full relative ${available === 0 ? 'bg-red-700' : 'bg-base-100' }`}>
             <figure><img src={d.image} alt="class image" /></figure>
             <div className="card-body font-extrabold">
                 <h2 className="card-title mt-3">{d.className}</h2>

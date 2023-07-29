@@ -20,6 +20,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import AdminRoute from "./AdminRoute";
 import InstructorRoutes from "./InstructorRoutes";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
+import PaymentHistory from "../Pages/Student/PaymentHistory/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
       {
         path: 'myEnrolledClass',
         element: <PrivateRoutes><EnrolledClass></EnrolledClass></PrivateRoutes>
+      },
+      {
+        path: 'myPayment',
+        element: <PrivateRoutes><PaymentHistory></PaymentHistory></PrivateRoutes>
       }
     ],
     errorElement: <ErrorPage></ErrorPage>

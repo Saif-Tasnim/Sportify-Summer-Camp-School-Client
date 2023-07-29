@@ -3,23 +3,27 @@ import { AuthContext } from '../../../Providers/AuthProviders';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../Hooks/useAxiosSecure';
 
-const EnrolledClass = () => {
-  const {user} = useContext(AuthContext);
-  const [axiosSecure] = useAxiosSecure();
+const PaymentHistory = () => {
+    const {user} = useContext(AuthContext);
+    const [axiosSecure] = useAxiosSecure();
 
-  const {data:enrolledData=[]} = useQuery({
-    queryKey: ['enrolledData' , user?.email],
-    queryFn: async () => {
-        const res = await axiosSecure.get(`/payment/${user?.email}`)
-        return res.data;
-    }
-  })
+    const {data: paymentHistory=[] , isLoading ,refetch} = useQuery({
+        queryKey: ['paymentHistory' , user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/myPayment/${user?.email}`)
+            return res.data;
+        }
+
+    })
+
+    console.log(paymentHistory)
 
     return (
         <div className='pt-20 pb-20 bg-base-200'>
-            <h1 className='pt-10 mb-16 text-center text-3xl text-[#798132] underline'> My Enrolled Course List  </h1>
+            <h1 className='pt-10 mb-16 text-center text-3xl text-[#798132] underline'> My Payment History  </h1>
 
-            {/* table data */}
+            {/* table formate */}
+
             <div className="overflow-x-auto">
                 <table className="table mb-10">
                     {/* head */}
@@ -32,14 +36,15 @@ const EnrolledClass = () => {
                             <th> Class Name </th>
                             <th> Instructor Name </th>
                             <th> Course Price </th>
-                            <th> Enrolled Date </th>
+                            <th> Transaction Id  </th>
+                            <th> Date </th>
                         </tr>
                     </thead>
                     <tbody>
                         {/* row 1 */}
 
                         {
-                            enrolledData.map((course, index) =>
+                            paymentHistory.map((course, index) =>
                                 <tr>
                                     <td> {index + 1} </td>
                                     <td>
@@ -57,7 +62,14 @@ const EnrolledClass = () => {
                                     </td>
                                     <td>{course.instructorName}</td>
                                     <td className='text-center'>${course.amount}</td>
-                                    <td className='text-center'>{course.date}</td>
+
+                                    <td>
+                                       {course.transactionId}
+                                    </td>
+
+                                    <td>
+                                      {course.date}
+                                    </td>
                                 </tr>
                             )
                         }
@@ -71,4 +83,4 @@ const EnrolledClass = () => {
     );
 };
 
-export default EnrolledClass;
+export default PaymentHistory;

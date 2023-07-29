@@ -83,7 +83,6 @@ const CheckoutForm = ({ data }) => {
                     className: data.className,
                     studentName: data.studentName,
                     image: data.image,
-                    _id: data._id,
                     transactionId: transactionId,
                     instructorName: data.instructorName,
                     studentEmail: data.studentEmail,

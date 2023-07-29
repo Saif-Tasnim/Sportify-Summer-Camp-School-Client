@@ -26,6 +26,7 @@ const UserNav = () => {
         {/* <li><Link to="/dashboard" className='text-xl hover:text-amber-700'>Dashboard</Link></li> */}
         <li><Link to="/dashboard/mySelectClass" className='text-xl hover:text-amber-700'> My Selected Class </Link></li>
         <li><Link to='/dashboard/myEnrolledClass' className='text-xl hover:text-amber-700'> My Enrolled Classes </Link></li>
+        <li><Link to='/dashboard/myPayment' className='text-xl hover:text-amber-700'> My Payment History </Link></li>
     </>
 
     if (loading) {

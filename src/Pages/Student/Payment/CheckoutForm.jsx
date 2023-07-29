@@ -1,15 +1,31 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import React from 'react';
-import './CheckoutForm.css';
+import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import useAxiosSecure from '../../../Hooks/useAxiosSecure';
+import { AuthContext } from '../../../Providers/AuthProviders';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ data }) => {
+    const { loading } = useContext(AuthContext);
 
     const stripe = useStripe();
     const elements = useElements();
+    const [axiosSecure] = useAxiosSecure();
+    const [clientSecret, setClientSecret] = useState("");
+
+
+    const price = data.price;
+
+    useEffect(() => {
+        axiosSecure.post("/create-payment-intent", { price })
+            .then(res => {
+                console.log(res)
+                setClientSecret(res.data.clientSecret);
+            })
+
+    }, []);
+
 
     const handleSubmit = async (event) => {
-
         event.preventDefault();
 
         if (!stripe || !elements) {
@@ -33,11 +49,32 @@ const CheckoutForm = () => {
 
         else {
             toast.success("done payment method")
-            console.log(paymentMethod);
+            console.log("payment method : ", paymentMethod);
+        }
+
+        const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
+            clientSecret,
+            {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: data.studentName,
+                        email: data.studentEmail,
+                    },
+                },
+            }
+        );
+
+        if (confirmError) {
+            toast.error(confirmError)
+        }
+
+        else {
+            toast.success("payment successfully done. Enrolled in Course")
+            console.log("paymentIntent", paymentIntent);
         }
 
     }
-
 
 
     return (
@@ -46,7 +83,7 @@ const CheckoutForm = () => {
                 options={{
                     style: {
                         base: {
-                            fontSize: '16px',
+                            fontSize: '20px',
                             color: '#424770',
                             '::placeholder': {
                                 color: '#aab7c4',
@@ -58,7 +95,7 @@ const CheckoutForm = () => {
                     },
                 }}
             />
-            <button className='mt-5 btn btn-primary btn-md' type="submit" disabled={!stripe}>
+            <button className='mt-5 btn btn-primary btn-md' type="submit" disabled={!stripe || !clientSecret}>
                 Proceed To Pay
             </button>
         </form>

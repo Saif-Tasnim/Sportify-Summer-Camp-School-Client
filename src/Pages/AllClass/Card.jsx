@@ -9,14 +9,14 @@ const Card = ({ d }) => {
     const { user , loading } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
-    let isAdmin, isInstructor
+    let isAdmin, isInstructor;
 
     // const [isAdmin] = useAdmin();
     // const [isInstructor] = useInstructor();
 
-    if(loading){
-        return <span className="loading loading-spinner loading-lg"></span>
-    }
+    // if(loading){
+    //     return <span className="loading loading-spinner loading-lg"></span>
+    // }
 
     if (user) {
         [isAdmin] = useAdmin();

@@ -18,11 +18,11 @@ const CheckoutForm = ({ data }) => {
     useEffect(() => {
         axiosSecure.post("/create-payment-intent", { price })
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 setClientSecret(res.data.clientSecret);
             })
 
-    }, []);
+    }, [axiosSecure]);
 
 
     const handleSubmit = async (event) => {
@@ -77,16 +77,19 @@ const CheckoutForm = ({ data }) => {
             // console.log("paymentIntent", paymentIntent);
             if (paymentIntent.status === 'succeeded') {
                 setLoading(false);
+                const date = new Date();
                 const transactionId = paymentIntent.id;
                 const payment = {
                     className: data.className,
                     studentName: data.studentName,
+                    image:data.image,
                     _id: data._id,
                     transactionId: transactionId,
                     instructorName: data.instructorName,
                     studentEmail: data.studentEmail,
                     amount: data.price,
-                    status: 'enrolled'
+                    status: 'enrolled',
+                    date: date
                 };
 
                 axiosSecure.post('/payment', payment)

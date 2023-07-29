@@ -19,6 +19,7 @@ import EnrolledClass from "../Pages/Student/EnrolledClass/EnrolledClass";
 import PrivateRoutes from "./PrivateRoutes";
 import AdminRoute from "./AdminRoute";
 import InstructorRoutes from "./InstructorRoutes";
+import ErrorPage from "../Components/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -37,7 +38,8 @@ export const router = createBrowserRouter([
         path: 'instructors',
         element: <AllInstructor></AllInstructor>
       }
-    ]
+    ],
+    errorElement: <ErrorPage></ErrorPage>
   },
   {
     path: '/login',
@@ -81,8 +83,8 @@ export const router = createBrowserRouter([
         path: 'myEnrolledClass',
         element: <PrivateRoutes><EnrolledClass></EnrolledClass></PrivateRoutes>
       }
-    ]
-
+    ],
+    errorElement: <ErrorPage></ErrorPage>
   },
 
 

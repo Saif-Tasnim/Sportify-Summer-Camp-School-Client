@@ -12,7 +12,7 @@ const User = ({ user, index, refetch }) => {
 
     const handleMakeAdmin = adminUser => {
         // console.log("hits on" , user._id , user.name);
-        fetch(`http://localhost:5000/users/admin/${adminUser._id}`, {
+        fetch(`https://sportify-server-saif-tasnim.vercel.app/users/admin/${adminUser._id}`, {
             method: "PATCH",
             headers: {
                 authorization: `bearer ${token}`

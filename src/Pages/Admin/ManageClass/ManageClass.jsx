@@ -23,7 +23,7 @@ const ManageClass = () => {
     })
 
     const handleAccept = data => {
-        fetch(`http://localhost:5000/class/admin/manage/${data._id}`, {
+        fetch(`https://sportify-server-saif-tasnim.vercel.app/class/admin/manage/${data._id}`, {
             method: "PATCH",
             headers: {
                 authorization: `bearer ${token}`
@@ -52,7 +52,7 @@ const ManageClass = () => {
         const form = event.target;
         const field = form.details.value;
         
-        fetch(`http://localhost:5000/class/admin/deny/${modalData._id}`, {
+        fetch(`https://sportify-server-saif-tasnim.vercel.app/class/admin/deny/${modalData._id}`, {
             method: "PUT",
             headers: {
                 'content-type': 'application/json',

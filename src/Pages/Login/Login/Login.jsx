@@ -56,7 +56,7 @@ const Login = () => {
                 //     gender: null,
                 // }
 
-                axios.post('http://localhost:5000/users', {
+                axios.post('https://sportify-server-saif-tasnim.vercel.app/users', {
                     name: loggedUser.displayName,
                     email: loggedUser.email,
                     phone: "Not Found",

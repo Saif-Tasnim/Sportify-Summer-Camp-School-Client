@@ -6,7 +6,7 @@ const AllClass = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/class/filter')
+        fetch('https://sportify-server-saif-tasnim.vercel.app/class/filter')
             .then(res => res.json())
             .then(data => setData(data))
     }, [])

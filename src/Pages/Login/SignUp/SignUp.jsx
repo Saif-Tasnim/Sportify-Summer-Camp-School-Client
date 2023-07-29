@@ -11,7 +11,8 @@ import { TbFidgetSpinner } from "react-icons/tb";
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [conPassword, setConPassword] = useState(false)
-    const { signUp, updateData, loading, setLoading } = useContext(AuthContext);
+    const [logIn, setLogIn] = useState(false);
+    const { signUp, updateData} = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
     const navigate = useNavigate()
     const location = useLocation();
@@ -23,7 +24,7 @@ const SignUp = () => {
             return toast.error("password & confirm password did not match")
         }
          
-        setLoading(true);
+        setLogIn(true);
         signUp(data.email, data.password)
             .then(res => {
                 updateData(data.name, data.photo)
@@ -32,7 +33,7 @@ const SignUp = () => {
                         
                         const user = { name,email,phone,photo,address,gender,password, role: "Student" }
 
-                        fetch('http://localhost:5000/users', {
+                        fetch('https://sportify-server-saif-tasnim.vercel.app/users', {
                             method: "POST",
                             headers: {
                                 'content-type': 'application/json',
@@ -43,7 +44,7 @@ const SignUp = () => {
                             .then(dbData => {
                                 if (dbData.insertedId) {
                                     toast.success("sucessfully created account")
-                                    setLoading(false);
+                                    setLogIn(false);
                                     navigate(from, { replace: true });
                                     reset();
                                 }
@@ -52,12 +53,12 @@ const SignUp = () => {
                     })
                     .catch(err => {
                         toast.error(err.message);
-                        setLoading(false);
+                        setLogIn(false);
                     })
             })
             .catch(err => {
                 toast.error(err.message);
-                setLoading(false);
+                setLogIn(false);
             })
     }
 
@@ -273,7 +274,7 @@ return (
                         </div>
 
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary"> {loading? <TbFidgetSpinner  className='text-3xl animate-spin text-red-600'/> :"Sign Up"} </button>
+                            <button className="btn btn-primary"> {logIn? <TbFidgetSpinner  className='text-3xl animate-spin text-red-600'/> :"Sign Up"} </button>
                         </div>
 
                     </form>

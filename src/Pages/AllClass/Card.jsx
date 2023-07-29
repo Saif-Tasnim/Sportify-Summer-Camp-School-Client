@@ -42,7 +42,7 @@ const Card = ({ d }) => {
         // console.log(info);
 
         if (user && user?.email) {
-            fetch('http://localhost:5000/student/class/select', {
+            fetch('https://sportify-server-saif-tasnim.vercel.app/student/class/select', {
                 method: "POST",
                 headers: {
                     'content-type': 'application/json',

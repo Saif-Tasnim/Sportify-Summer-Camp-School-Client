@@ -1,0 +1,12 @@
+[class^="number-slide"],
+[class*=" number-slide"] {
+  max-height: 400px;
+  color: lightgreen;
+  
+}
+
+.number-slide1 {
+ background-color: gray;
+
+}
+
